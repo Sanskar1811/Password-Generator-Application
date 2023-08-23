@@ -1,0 +1,63 @@
+from tkinter import *
+import random
+import string
+
+def generate_password():
+    length = ent_le.get()
+    if length.isdigit():
+        length = int(length)
+        include_numbers = nu.get()
+        include_uppercase = ul.get()
+        include_lowercase = lu.get()
+        include_special_characters = sc.get()
+
+        characters = ""
+        if include_numbers:
+            characters += string.digits
+        if include_uppercase:
+            characters += string.ascii_uppercase
+        if include_lowercase:
+            characters += string.ascii_lowercase
+        if include_special_characters:
+            characters += string.punctuation
+
+        if characters:
+            password = ''.join(random.choice(characters) for _ in range(length))
+            password_label.config(text="Generated Password: " + password)
+        else:
+            password_label.config(text="Please select at least one option.")
+    else:
+        password_label.config(text="Please enter a valid length.")
+
+root = Tk() 
+root.title("Password Generator Application")
+root.geometry("1000x720+300+50")
+root.configure(bg = "deepskyblue")
+f = ("Arial", 30, "bold")
+
+lab_le = Label(root, text="Enter length of password:", font=f , fg = "purple")
+lab_le.place(x = 260 , y = 20)
+
+ent_le = Entry(root, font=f)
+ent_le.place(x = 280 , y = 100)
+
+nu, ul, lu, sc = IntVar(), IntVar(), IntVar(), IntVar()
+cb_num = Checkbutton(root, font=f, text="Number", variable=nu , bg = "deepskyblue")
+cb_num.place(x=200, y=200)
+
+cb_ul = Checkbutton(root, font=f, text="Capital Letter", variable=ul , bg = "deepskyblue")
+cb_ul.place(x=550, y=200)
+
+cb_sl = Checkbutton(root, font=f, text="Small Letter", variable=lu , bg = "deepskyblue")
+cb_sl.place(x=200, y=400)
+
+cb_sc = Checkbutton(root, font=f, text="Special Characters", variable=sc , bg = "deepskyblue")
+cb_sc.place(x=550, y=400)
+
+generate_button = Button(root, text="Generate Password", font=f, command=generate_password)
+generate_button.place(x=350, y=550)
+
+password_label = Label(root, text="", font=f , bg = "deepskyblue" , fg = "white")
+password_label.place(x=290, y=650)
+
+root.mainloop()
